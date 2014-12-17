@@ -76,7 +76,7 @@ angular.module('santaApp')
 	 	$http.get('https://secret-santa-022.herokuapp.com/getRecipient?fbId=' + user).
 		  success(function(data, status, headers, config) {
 		  	console.log("get recipient success: ", data);
-		  	callback();
+		  	callback(data);
 		  }).
 		  error(function(data, status, headers, config) {
 		  	console.log("get recipient error: ", data);
