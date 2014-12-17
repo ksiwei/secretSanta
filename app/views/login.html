@@ -4,5 +4,19 @@
         Login with Facebook
       </button>
     </div>
+
+    <div ng-show='hasProfile' class="profile">
+      <img class="profile-img" src="{{picture}}"/>
+      <span class="profile-name">{{name}}</span>
+    </div>
+
+    <div ng-show='waitForRecipient' class="waiting">
+      Your recipient is coming soon
+    </div>
+
+    <div ng-show="hasRecipient" class="recipient">
+      <img class="recipient-img" src="{{recipientPic}}"/>
+      <span class="recipient-name">{{recipientName}}</span>
+    </div>
   </div>
 </form>

@@ -8,49 +8,78 @@
  * Service in the santaApp.
  */
 angular.module('santaApp')
-  .service('AuthService', function ($rootScope) {
+  .service('AuthService', function ($rootScope, $http) {
   	this.checkStatus = function(login, notLogin) {
 	  	FB.getLoginStatus(function(response) {
-			if (checkStatus(response)) {
-				login();
-			} else {
-				notLogin();
-			}
+			setStatus(response);
 		});
   	}
 
 	this.login = function(success) {
 		FB.login(function(response){
-			console.log(response);
-			if (isLogin()) {
-				success(response);
-			}
-		  // Handle the response object, like in statusChangeCallback() in our demo
-		  // code.
-
-		  //TODO add code to stroe into db
+			setStatus(response);
 		}, {scope: 'public_profile,email'});
 	}
 
-	function checkStatus(response) {
-		console.log('statusChangeCallback');
-	    console.log(response);
-	    // The response object is returned with a status field that lets the
-	    // app know the current login status of the person.
-	    // Full docs on the response object can be found in the documentation
-	    // for FB.getLoginStatus().
-	    if (response.status === 'connected') {
-	      // Logged into your app and Facebook.
-	      return true
+	this.getProfile = function(setProfileCallback) {
+		FB.api('/me', function(response) {
+			FB.api('/me/picture?height=200&type=normal&width=200', function(picture) {
+				console.log('Successful login for: ' + response.name + " and pic is ", picture.data.url);
+      			console.log(response);
+      			var arg = {
+      				"name" : response.name,
+      				"email" : response.email,
+      				"picture" : picture.data.url
 
-	    } else if (response.status === 'not_authorized') {
-	      // The person is logged into Facebook, but not your app.
-	      return false;
-	    } else {
-	    	return false;
-    	}
+      			}
+      			setProfileCallback(arg);
+			})
+    	});
 	}
 
+	function setStatus(response) {
+		console.log('statusChangeCallback');
+	    console.log(response);
 
+	    var arg = { "status" : "unauthorized"};
+	    if (response.status === 'connected') {
+	      var userID = response.authResponse.userID;
+	      $rootScope.user = userID;
+	      arg = { "user" : userID, "status" : "connected"}
+	    } 
 
+    	$rootScope.$broadcast("Auth", arg);
+	}
+
+  })
+  .service('DBService', function ($rootScope, $http) {
+	 this.saveProfile = function(arg, callback) {
+		var argString = 
+			"name=" + arg.name +
+			"&email=" + arg.email +
+			"&fbId=" + arg.user +
+			"&picture=" + arg.picture;
+
+		console.log(arg);
+
+		$http.get('https://secret-santa-022.herokuapp.com/addPlayer/?' + argString).
+		  success(function(data, status, headers, config) {
+		  	console.log("save to db success: ", data);
+		  	callback();
+		  }).
+		  error(function(data, status, headers, config) {
+		  	console.log("save to db error: ", data);
+		  });
+	 };  	
+
+	 this.getMatch = function(user, callback) {
+	 	$http.get('https://secret-santa-022.herokuapp.com/getRecipient?fbId=' + user).
+		  success(function(data, status, headers, config) {
+		  	console.log("get recipient success: ", data);
+		  	callback();
+		  }).
+		  error(function(data, status, headers, config) {
+		  	console.log("get recipient error: ", data);
+		  });
+	 };
   });
