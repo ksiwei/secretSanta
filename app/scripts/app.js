@@ -8,12 +8,7 @@
  *
  * Main module of the application.
  */
-window.fbAsyncInit = function() {
-  FB.init({
-    appId      : '1583515518538640',
-    xfbml      : true,
-    version    : 'v2.2'
-  });
+
   angular
     .module('santaApp', [
       'ngAnimate',
@@ -33,5 +28,5 @@ window.fbAsyncInit = function() {
           redirectTo: '/'
         });
     });
-};
+
 

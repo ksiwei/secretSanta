@@ -10,7 +10,16 @@ angular.module('santaApp')
   .controller('LoginCtrl', function ($scope, AuthService, DBService, $rootScope, $http) {
   	$scope.hasStatus = false;
   	$scope.isLogin = false;
-  	AuthService.checkStatus();
+
+  	//workaround for async fb
+  	if (typeof FB !== 'undefined') {
+  		AuthService.checkStatus();
+  	} else {
+		$("body").on("FB", function() {
+			AuthService.checkStatus();
+		});
+	}
+  	
 	$scope.login = AuthService.login;
 
   	$scope.$on("Auth", function(e, arg) {
