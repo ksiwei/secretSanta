@@ -7,7 +7,9 @@
     </div>
     <div class="row">
       <div ng-show='hasProfile' class="profile col-xs-12 col-md-12">
-        <span class="profile-name"> Hello! {{name}}</span>
+        <span ng-show='hasRecipient' class="profile-name"> Hello! {{name}}, please prepare your present before Saturday 12/20, your recipient is </span>
+        <span ng-show='waitForRecipient' class="profile-name"> Hello! {{name}}, </span>
+
       </div>
 
       <div ng-show='waitForRecipient' class="waiting col-xs-12 col-md-offset-3 col-md-8">
