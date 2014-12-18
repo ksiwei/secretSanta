@@ -3,7 +3,7 @@ body {
   padding-top: 20px;
   padding-bottom: 20px;
   background-color: #CDFAE5;
-  font-family: 'Gloria Hallelujah', cursive;
+  font-family: 'Gloria Hallelujah', cursive !important; 
 }
 
 /* Everything but the jumbotron gets side spacing for mobile first views */
