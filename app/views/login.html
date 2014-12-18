@@ -1,8 +1,9 @@
 <div class="container-fuid login-container" ng-controller="LoginCtrl" >
     <div ng-click='login()' ng-show='!isLogin && hasStatus'class="col-md-offset-3 col-md-6 facebook-login">
+      <div class="bg-danger">Important: Clicking the button below means that you are committed to participate Secret Santa.</div>
       <img src="images/santa@High.png" class="santa-image" />
       <button id="fb-button" class="btn btn-large btn-primary">
-        Login with Facebook
+        Sign up with Facebook
       </button>
     </div>
     <div class="row">
@@ -13,7 +14,7 @@
       </div>
 
       <div ng-show='waitForRecipient' class="waiting col-xs-12 col-md-offset-3 col-md-8">
-        Your recipient is coming soon
+        Check back Thursday night to see who you need to get a gift for.
       </div>
 
       <div ng-show="hasRecipient" class="recipient col-xs-12 col-md-offset-3 col-md-8">
