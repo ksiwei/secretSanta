@@ -9,9 +9,7 @@
  */
 angular.module('santaApp')
   .service('AuthService', function ($rootScope, $http) {
-  	if (!FB) {
-  		throw "FB is not available";
-  	}
+
   	this.checkStatus = function(login, notLogin) {
 	  	FB.getLoginStatus(function(response) {
 			setStatus(response);
