@@ -44,7 +44,7 @@ angular.module('santaApp')
 
 		  			DBService.saveProfile($scope, function() {
 		  				DBService.getMatch($scope.user, function(data) {
-					  		if (!data || !data.recipientName) {
+					  		if (!data || !data.name) {
 						  		$scope.waitForRecipient = true;
 						  	} else {
 						  		$scope.waitForRecipient = false;
