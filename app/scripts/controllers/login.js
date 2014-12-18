@@ -43,6 +43,17 @@ angular.module('santaApp')
 						  		$scope.recipientName = data.name;
 						  		$scope.recipientPic = data.picture;
 						  		$scope.hasRecipient = true;
+						  		var recipientId = data.fbId;
+
+						  		if (recipientId) {
+							  		FB.api('/' + recipientId + '/picture?height=200&type=normal&width=200', function(picture) {
+										console.log('Successful find recipient pic is ', picture.data.url);
+						      			console.log(picture);
+						      			$scope.recipientPic = picture.data.url;
+						      			$scope.$apply();
+
+									})
+						  		}
 						  	}
 		  				});
 		  			});
